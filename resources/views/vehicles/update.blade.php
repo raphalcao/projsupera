@@ -333,12 +333,12 @@
           <div class="row">
             <div class="col-6">
               <label for="" class="control-label">Data</label>
-              <input type="date" name="date" class="form-control year" required maxlength="20" value="{{ $vehicle->maintenance->date ?? '' }}">
+              <input type="date" name="date" class="form-control year" required maxlength="20" value="{{ $vehicle->maintenance[0]->date ?? '' }}">
               <small id="error_date" class="text-danger error-text"></small>
             </div>
             <div class="col-6">
               <label for="" class="control-label">Descrição</label>
-              <input type="text" name="description" class="form-control color" required maxlength="20" value="{{ $vehicle->maintenance->description ?? '' }}">
+              <input type="text" name="description" class="form-control color" required maxlength="20" value="{{ $vehicle->maintenance[0]->description ?? '' }}">
               <small id="error_description" class="text-danger error-text"></small>
             </div>
           </div>

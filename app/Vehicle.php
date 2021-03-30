@@ -21,7 +21,6 @@ class Vehicle extends Model
     protected $fillable =
     [
         'user_id',
-        'maintenance_id',
         'vehicle_type',
         'automakers',
         'model',
@@ -42,10 +41,10 @@ class Vehicle extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\hasMany
      */
     public function maintenance()
     {
-        return $this->BelongsTo('App\Maintenance');
+        return $this->hasMany('App\Maintenance');
     }
 }

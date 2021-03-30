@@ -42,15 +42,7 @@ class VehicleController extends Controller
     {
         DB::beginTransaction();
         try {
-
-            $maintenance = new Maintenance([
-                'date'          => $request->date,
-                'user_id'       => Auth::user()->id,
-                'description'   => $request->description
-            ]);
-            $maintenance->save();
             $vehicle = new Vehicle([
-                'maintenance_id'    => $maintenance->id,
                 'user_id'           => Auth::user()->id,
                 'vehicle_type'      => $request->vehicle_type,
                 'automakers'        => $request->automakers,
@@ -62,6 +54,14 @@ class VehicleController extends Controller
                 'plate'             => $request->plate
             ]);
             $vehicle->save();
+            $maintenance = new Maintenance([
+                'date'              => $request->date,
+                'vehicle_id'        => $vehicle->id,
+                'user_id'           => Auth::user()->id,
+                'description'       => $request->description
+            ]);
+            $maintenance->save();
+
             DB::commit();
 
             return response()->json(['status' => 'success', 'data' => $vehicle], 200);
@@ -105,16 +105,8 @@ class VehicleController extends Controller
     {
         DB::beginTransaction();
         try {
+            $vehicle = (new Vehicle())->where('id', $id)->first();
 
-            $maintenance = (new Maintenance())->where('id', $id)->first();
-
-            $maintenance->date          = $request->date;
-            $maintenance->description   = $request->description;
-            $maintenance->save();
-
-            $vehicle = $maintenance->vehicles[0];
-
-            $vehicle->maintenance_id    = $maintenance->id;
             $vehicle->vehicle_type      = $request->vehicle_type;
             $vehicle->automakers        = $request->automakers;
             $vehicle->model             = $request->model;
@@ -124,6 +116,13 @@ class VehicleController extends Controller
             $vehicle->chassi            = $request->chassi;
             $vehicle->plate             = $request->plate;
             $vehicle->save();
+
+            $maintenance = $vehicle->maintenance[0];
+
+            $maintenance->date          = $request->date;
+            $maintenance->description   = $request->description;
+            $maintenance->vehicle_id    = $vehicle->id;
+            $maintenance->save();
 
             DB::commit();
             return response()->json(['status' => 'success'], 200);

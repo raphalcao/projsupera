@@ -17,14 +17,15 @@ class CreateMaintenancesTable extends Migration
             $table->increments('id');
             $table->date('date')->nullable();
             $table->unsignedInteger('user_id');
+            $table->unsignedInteger('vehicle_id');
             $table->string('description')->nullable();
             $table->timestamps();
         });
 
         Schema::table('maintenances', function (Blueprint $table) {
-            $table->foreign('user_id')
+            $table->foreign('vehicle_id')
                 ->references('id')
-                ->on('users')
+                ->on('vehicles')
                 ->onDelete('cascade');
         });
     }

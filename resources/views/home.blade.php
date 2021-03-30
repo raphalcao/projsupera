@@ -21,7 +21,7 @@
                         @foreach($maintenances as $maintenance)
                         <tr id="_tr_client_{{$maintenance->id}}">
                             <td>{{$maintenance->id}}</td>  
-                            <td>{{$maintenance->vehicles[0]->model}}</td>
+                            <td>{{$maintenance->vehicle->model}}</td>
                             <td>{{$maintenance->description}}</td>
                             <td>{{$maintenance->date->format('d/m/Y')}}</td>                              
                         </tr>

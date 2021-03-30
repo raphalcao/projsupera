@@ -17,30 +17,11 @@ class MaintenanceController extends Controller
      */
     public function index()
     {
-
-        /**
-            $data['clients'] = Client::select("*")
-            ->where('user_id', Auth::user()->id)
-            ->whereNotNull('birth')
-            ->whereRaw("DATE_FORMAT(birth, '%m-%d') BETWEEN DATE_FORMAT(?, '%m-%d') AND DATE_FORMAT(?, '%m-%d')", [Carbon::now()->subDays(10), Carbon::now()->addDays(10)])
-            ->get();
-
-        $data['alerts'] = Alert::with('client')
-            ->where('status', 1)
-            ->where('user_id', Auth::user()->id)
-            ->whereBetween('date', [Carbon::now()->subDays(10), Carbon::now()->addDays(10)])
-            ->orderBy('date', 'asc')
-            ->paginate(15);
-
-         */
-
         $data['maintenances'] = Maintenance::select("*")
             ->where('user_id', Auth::user()->id)
             ->whereNotNull('date')
             ->whereRaw("DATE_FORMAT(date, '%m-%d') BETWEEN DATE_FORMAT(?, '%m-%d') AND DATE_FORMAT(?, '%m-%d')", [Carbon::now(), Carbon::now()->addDays(7)])
             ->get();
-
-
         return view('home', $data);
     }
 

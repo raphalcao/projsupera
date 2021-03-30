@@ -21,6 +21,7 @@ class Maintenance extends Model
     [
         'date',
         'user_id',
+        'vehicle_id',
         'description'
     ];
 
@@ -33,10 +34,10 @@ class Maintenance extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function vehicles()
+    public function vehicle()
     {
-        return $this->hasMany('App\Vehicle');
+        return $this->belongsTo('App\Vehicle');
     }
 }

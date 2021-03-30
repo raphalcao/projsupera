@@ -15,16 +15,16 @@ class CreateMaintenancesTable extends Migration
     {
         Schema::create('maintenances', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('vehicle_id');
             $table->date('date')->nullable();
+            $table->unsignedInteger('user_id');
             $table->string('description')->nullable();
             $table->timestamps();
         });
 
         Schema::table('maintenances', function (Blueprint $table) {
-            $table->foreign('vehicle_id')
+            $table->foreign('user_id')
                 ->references('id')
-                ->on('vehicles')
+                ->on('users')
                 ->onDelete('cascade');
         });
     }

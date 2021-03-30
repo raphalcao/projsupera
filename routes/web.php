@@ -19,4 +19,19 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', 'MaintenanceController@index')->name('home');
+
+Route::group(['prefix' => 'veiculo'], function () {
+    Route::get('/', 'VehicleController@index')->name('vehicles.list');
+    Route::get('/editar/{id}', 'VehicleController@edit')->name('vehicles.edit');
+    Route::put('/alterar/{id}', 'VehicleController@update')->name('vehicles.update');
+    Route::get('/novo', 'VehicleController@create')->name('vehicles.create');
+    Route::post('/salvar', 'VehicleController@store')->name('vehicles.store');
+});
+
+Route::group(['prefix' => 'manutencao'], function () {
+    Route::get('/', 'MaintenanceController@index')->name('maintances.list');
+    Route::get('/novo', 'MaintenanceController@create')->name('maintances.create');
+});
+
+

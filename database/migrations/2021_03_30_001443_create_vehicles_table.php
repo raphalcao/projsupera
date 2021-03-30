@@ -36,6 +36,13 @@ class CreateVehiclesTable extends Migration
                 ->onDelete('cascade');
         });
 
+        Schema::table('vehicles', function (Blueprint $table) {
+            $table->foreign('maintenance_id')
+                ->references('id')
+                ->on('maintenances')
+                ->onDelete('cascade');
+        });
+
        
     }
 

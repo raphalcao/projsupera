@@ -27,6 +27,7 @@ Route::group(['prefix' => 'veiculo'], function () {
     Route::put('/alterar/{id}', 'VehicleController@update')->name('vehicles.update');
     Route::get('/novo', 'VehicleController@create')->name('vehicles.create');
     Route::post('/salvar', 'VehicleController@store')->name('vehicles.store');
+    Route::get('/delete/{id}', 'VehicleController@destroy')->name('vehicles.destroy');
 });
 
 Route::group(['prefix' => 'manutencao'], function () {

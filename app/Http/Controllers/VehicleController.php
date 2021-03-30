@@ -28,7 +28,7 @@ class VehicleController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {        
+    {
         return view('vehicles.create');
     }
 
@@ -79,27 +79,7 @@ class VehicleController extends Controller
      */
     public function show(Vehicle $vehicle)
     {
-        DB::beginTransaction();
-        try {
-            $vehicle = new Vehicle;
-            $vehicle->user_id                        = Auth::user()->id;
-            $vehicle->vehicle_type                   = $request->vehicle_type;
-            $vehicle->maintenance_id                 = $request->maintenance_id;
-            $vehicle->automakers                     = $request->automakers;
-            $vehicle->model                          = $request->model;
-            $vehicle->year                           = $request->year;
-            $vehicle->color                          = $request->color;
-            $vehicle->odometer                       = $request->odometer;
-            $vehicle->chassi                         = $request->chassi;
-            $vehicle->plate                          = $request->plate;
-
-            $vehicle->save();
-            DB::commit();
-            return response()->json(['status' => 'success', 'data' => $vehicle], 200);
-        } catch (\Exception $e) {
-            DB::rollback();
-            return response()->json(['status' => 'internal_error', 'errors' => $e->getMessage()], 400);
-        }
+        //
     }
 
     /**
@@ -132,7 +112,7 @@ class VehicleController extends Controller
             $maintenance->description   = $request->description;
             $maintenance->save();
 
-            $vehicle = $maintenance->vehicles[0];            
+            $vehicle = $maintenance->vehicles[0];
 
             $vehicle->maintenance_id    = $maintenance->id;
             $vehicle->vehicle_type      = $request->vehicle_type;
@@ -160,8 +140,13 @@ class VehicleController extends Controller
      * @param  \App\Vehicle  $vehicle
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Vehicle $vehicle)
+    public function destroy(Vehicle $id)
     {
-        //
+        try {
+            Vehicle::find($id)->first()->delete();
+            return back()->with(['status' => 'Deleted successfully']);
+        } catch (\Exception $e) {
+            return response()->json(['status' => 'internal_error', 'errors' => $e->getMessage()], 400);
+        }
     }
 }
